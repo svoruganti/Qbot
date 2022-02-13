@@ -24,10 +24,15 @@ public class BookingClient : IBookingClient
         return await response.Content.ReadFromJsonAsync<List<Booking>>();
     }
 
-    public async Task<Booking> UpdateBooking(Booking booking, string candidateId)
+    public async Task<Booking> GetBooking(int bookingId, string candidateId)
     {
-        var response = await GetClient().PutAsJsonAsync($"{_settings.Value.Url}/{candidateId}/{booking.Id}", booking);
+        var response = await GetClient().GetAsync($"{_settings.Value.Url}/{candidateId}/{bookingId}");
         return await response.Content.ReadFromJsonAsync<Booking>();
+    }
+
+    public async Task UpdateBooking(Booking booking, string candidateId)
+    {
+        await GetClient().PutAsJsonAsync($"{_settings.Value.Url}/{candidateId}/{booking.Id}", booking);
     }
 
     public async Task DeleteBooking(int bookingId, string candidateId)

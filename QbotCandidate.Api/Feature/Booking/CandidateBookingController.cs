@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace QbotCandidate.Api.Feature.Booking;
 
@@ -12,11 +13,19 @@ public class CandidateBookingController : ControllerBase
         _bookingClient = bookingClient;
     }
 
+    [SwaggerOperation(Summary = "Gets all bookings of a candidate")]
     [HttpGet]
     public async Task<IActionResult> GetBookings(string candidateId)
     {
         var bookings = await _bookingClient.GetBookings(candidateId);
         return Ok(bookings);
+    }
+
+    [HttpGet("{bookingId:int}")]
+    public async Task<IActionResult> GetBooking(string candidateId, int bookingId)
+    {
+        var booking = await _bookingClient.GetBooking(bookingId, candidateId);
+        return Ok(booking);
     }
 
     [HttpPost]
@@ -30,8 +39,8 @@ public class CandidateBookingController : ControllerBase
     public async Task<IActionResult> UpdateBooking([FromForm] BookingRequest request, string candidateId, int bookingId)
     {
         request.Id = bookingId;
-        var response = await _bookingClient.UpdateBooking(GetBooking(request), candidateId);
-        return Ok(response);
+        await _bookingClient.UpdateBooking(GetBooking(request), candidateId);
+        return StatusCode(204);
     }
 
     [HttpDelete("{bookingId:int}")]

@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Candidate Booking" });
+    options.EnableAnnotations();
 });
 builder.Services.AddTransient<IBookingClient, BookingClient>();
 builder.Services.AddHttpClient();
