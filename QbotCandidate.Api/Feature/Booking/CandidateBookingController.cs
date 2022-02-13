@@ -13,7 +13,7 @@ public class CandidateBookingController : ControllerBase
         _bookingClient = bookingClient;
     }
 
-    [SwaggerOperation(Summary = "Gets all bookings of a candidate")]
+    [SwaggerOperation(Summary = "Gets all bookings")]
     [HttpGet]
     public async Task<IActionResult> GetBookings(string candidateId)
     {
@@ -21,6 +21,7 @@ public class CandidateBookingController : ControllerBase
         return Ok(bookings);
     }
 
+    [SwaggerOperation(Summary = "Gets a booking")]
     [HttpGet("{bookingId:int}")]
     public async Task<IActionResult> GetBooking(string candidateId, int bookingId)
     {
@@ -28,6 +29,7 @@ public class CandidateBookingController : ControllerBase
         return Ok(booking);
     }
 
+    [SwaggerOperation("Creates a booking")]
     [HttpPost]
     public async Task<IActionResult> CreateBooking([FromForm]BookingRequest request, string candidateId)
     {
@@ -35,6 +37,7 @@ public class CandidateBookingController : ControllerBase
         return StatusCode(201);
     }
 
+    [SwaggerOperation("Updates existing booking")]
     [HttpPut("{bookingId:int}")]
     public async Task<IActionResult> UpdateBooking([FromForm] BookingRequest request, string candidateId, int bookingId)
     {
@@ -43,6 +46,7 @@ public class CandidateBookingController : ControllerBase
         return StatusCode(204);
     }
 
+    [SwaggerOperation("Deletes a booking")]
     [HttpDelete("{bookingId:int}")]
     public async Task<IActionResult> DeleteBooking(string candidateId, int bookingId)
     {
